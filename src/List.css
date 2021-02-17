@@ -1,0 +1,9 @@
+input[type="date"] {
+    border: none;
+    text-indent: -9999px;
+    width: 50px;
+    margin-left: -52px;
+    outline: none;
+    background: none;
+    margin-right: 10px;
+}

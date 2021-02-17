@@ -21,6 +21,7 @@ export default class List extends Component {
             text: input,
             id: Date.now(),
             date: date,
+            order: this.getHighestOrder(this.state.notes) + 1,
         };
 
         this.setState(
@@ -76,6 +77,18 @@ export default class List extends Component {
         );
     }
 
+    getHighestOrder(notes) {
+        let orderArray = [];
+        notes.map((note) => {
+            let order = note.order;
+            if (!order) {
+                order = 0;
+            }
+            orderArray.push(order);
+        });
+        return Math.max(...orderArray);
+    }
+
     componentDidMount() {
         this.setState({
             notes: ls.get("notes") ?? [],
@@ -93,15 +106,17 @@ export default class List extends Component {
         return (
             <div>
                 {this.state.key}
-                {this.state.notes.map((note) => (
-                    <Note
-                        text={note.text}
-                        key={note.id}
-                        id={note.id}
-                        date={note.date}
-                        onChange={this.removeNote}
-                    />
-                ))}
+                {this.state.notes
+                    .sort((a, b) => a.order - b.order)
+                    .map((note) => (
+                        <Note
+                            text={note.text}
+                            key={note.id}
+                            id={note.id}
+                            date={note.date}
+                            onChange={this.removeNote}
+                        />
+                    ))}
                 <button onClick={this.confirmClear} type="reset">
                     Verwijder alle to-do&apos;s
                 </button>

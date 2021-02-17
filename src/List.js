@@ -11,14 +11,9 @@ export default class List extends Component {
             notes: [],
             dragId: 0,
         };
-
-        this.clearNotes = this.clearNotes.bind(this);
-        this.confirmClear = this.confirmClear.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.removeNote = this.removeNote.bind(this);
     }
 
-    addNote(input, date) {
+    addNote = (input, date) => {
         const newNote = {
             text: input,
             id: Date.now(),
@@ -26,17 +21,12 @@ export default class List extends Component {
             order: this.getHighestOrder(this.state.notes) + 1,
         };
 
-        this.setState(
-            (state) => ({
-                notes: state.notes.concat(newNote),
-            }),
-            () => {
-                ls.set("notes", this.state.notes);
-            }
-        );
-    }
+        const newNotes = this.state.notes.concat(newNote);
 
-    confirmClear() {
+        this.updateNotes(newNotes);
+    };
+
+    confirmClear = () => {
         confirmAlert({
             title: "Bevestiging",
             message: "Ben je zeker dat je alle to-do's wil verwijderen?",
@@ -52,9 +42,9 @@ export default class List extends Component {
             overlayClassName: "confirm-overlay",
             closeOnClickOutside: true,
         });
-    }
+    };
 
-    clearNotes() {
+    clearNotes = () => {
         this.setState(
             {
                 notes: [],
@@ -63,9 +53,9 @@ export default class List extends Component {
                 ls.clear();
             }
         );
-    }
+    };
 
-    handleChange(change, id) {
+    handleChange = (change, id, input = "") => {
         switch (change) {
             case "remove":
                 this.removeNote(id);
@@ -76,30 +66,32 @@ export default class List extends Component {
             case "drop":
                 this.dropNote(id);
                 break;
+            case "text":
+                this.changeText(id, input);
+                break;
+            case "date":
+                this.changeDate(id, input);
+                break;
+            case "dateRemove":
+                this.changeDate(id);
+                break;
         }
-    }
+    };
 
-    removeNote(id) {
+    removeNote = (id) => {
         const newNotes = this.state.notes.filter((obj) => {
             return obj.id !== id;
         });
-        this.setState(
-            {
-                notes: newNotes,
-            },
-            () => {
-                ls.set("notes", this.state.notes);
-            }
-        );
-    }
+        this.updateNotes(newNotes);
+    };
 
-    dragNote(id) {
+    dragNote = (id) => {
         this.setState({
             dragId: id,
         });
-    }
+    };
 
-    dropNote(id) {
+    dropNote = (id) => {
         const dragNote = this.state.notes.find(
             (note) => note.id === this.state.dragId
         );
@@ -111,7 +103,6 @@ export default class List extends Component {
         const dropNoteOrder = dropNote.order;
 
         const newNotes = this.state.notes.map((note) => {
-            console.log(note);
             if (note.id === this.state.dragId) {
                 note.order = dropNoteOrder;
             }
@@ -121,12 +112,34 @@ export default class List extends Component {
             return note;
         });
 
-        this.setState({
-            notes: newNotes,
-        });
-    }
+        this.updateNotes(newNotes);
+    };
 
-    getHighestOrder(notes) {
+    changeText = (id, text) => {
+        if (text === "") {
+            this.removeNote(id);
+        } else {
+            const newNotes = this.state.notes.map((note) => {
+                if (note.id === parseInt(id)) {
+                    note.text = text;
+                }
+                return note;
+            });
+            this.updateNotes(newNotes);
+        }
+    };
+
+    changeDate = (id, date = "") => {
+        const newNotes = this.state.notes.map((note) => {
+            if (note.id === parseInt(id)) {
+                note.date = date;
+            }
+            return note;
+        });
+        this.updateNotes(newNotes);
+    };
+
+    getHighestOrder = (notes) => {
         if (!notes.length) {
             return 0;
         }
@@ -139,7 +152,18 @@ export default class List extends Component {
             orderArray.push(order);
         });
         return Math.max(...orderArray);
-    }
+    };
+
+    updateNotes = (newNotes) => {
+        this.setState(
+            {
+                notes: newNotes,
+            },
+            () => {
+                ls.set("notes", this.state.notes);
+            }
+        );
+    };
 
     componentDidMount() {
         this.setState({
@@ -158,7 +182,7 @@ export default class List extends Component {
         return (
             <div>
                 {this.state.notes
-                    .sort((a, b) => a.order - b.order)
+                    .sort((a, b) => b.order - a.order)
                     .map((note) => (
                         <Note
                             text={note.text}

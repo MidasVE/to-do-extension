@@ -9,10 +9,12 @@ export default class List extends Component {
         super(props);
         this.state = {
             notes: [],
+            dragId: 0,
         };
 
         this.clearNotes = this.clearNotes.bind(this);
         this.confirmClear = this.confirmClear.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.removeNote = this.removeNote.bind(this);
     }
 
@@ -63,6 +65,20 @@ export default class List extends Component {
         );
     }
 
+    handleChange(change, id) {
+        switch (change) {
+            case "remove":
+                this.removeNote(id);
+                break;
+            case "drag":
+                this.dragNote(id);
+                break;
+            case "drop":
+                this.dropNote(id);
+                break;
+        }
+    }
+
     removeNote(id) {
         const newNotes = this.state.notes.filter((obj) => {
             return obj.id !== id;
@@ -77,7 +93,43 @@ export default class List extends Component {
         );
     }
 
+    dragNote(id) {
+        this.setState({
+            dragId: id,
+        });
+    }
+
+    dropNote(id) {
+        const dragNote = this.state.notes.find(
+            (note) => note.id === this.state.dragId
+        );
+        const dropNote = this.state.notes.find(
+            (note) => note.id === parseInt(id)
+        );
+
+        const dragNoteOrder = dragNote.order;
+        const dropNoteOrder = dropNote.order;
+
+        const newNotes = this.state.notes.map((note) => {
+            console.log(note);
+            if (note.id === this.state.dragId) {
+                note.order = dropNoteOrder;
+            }
+            if (note.id === parseInt(id)) {
+                note.order = dragNoteOrder;
+            }
+            return note;
+        });
+
+        this.setState({
+            notes: newNotes,
+        });
+    }
+
     getHighestOrder(notes) {
+        if (!notes.length) {
+            return 0;
+        }
         let orderArray = [];
         notes.map((note) => {
             let order = note.order;
@@ -105,7 +157,6 @@ export default class List extends Component {
     render() {
         return (
             <div>
-                {this.state.key}
                 {this.state.notes
                     .sort((a, b) => a.order - b.order)
                     .map((note) => (
@@ -114,7 +165,7 @@ export default class List extends Component {
                             key={note.id}
                             id={note.id}
                             date={note.date}
-                            onChange={this.removeNote}
+                            onChange={this.handleChange}
                         />
                     ))}
                 <button onClick={this.confirmClear} type="reset">

@@ -175,14 +175,24 @@ export default class List extends Component {
         if (prevState !== this.state) {
             return;
         }
-        this.addNote(this.props.input, this.props.date);
+
+        if (
+            prevProps.input !== this.props.input ||
+            prevProps.date !== this.props.date
+        ) {
+            this.addNote(this.props.input, this.props.date);
+        }
+
+        if (this.props.notesCleared) {
+            this.confirmClear();
+        }
     }
 
     render() {
         return (
             <div>
                 {this.state.notes
-                    .sort((a, b) => b.order - a.order)
+                    .sort((a, b) => a.order - b.order)
                     .map((note) => (
                         <Note
                             text={note.text}
@@ -192,9 +202,6 @@ export default class List extends Component {
                             onChange={this.handleChange}
                         />
                     ))}
-                <button onClick={this.confirmClear} type="reset">
-                    Verwijder alle to-do&apos;s
-                </button>
             </div>
         );
     }

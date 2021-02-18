@@ -1,29 +1,20 @@
 import React, { Component } from "react";
 
 export default class NoteDate extends Component {
-    removeButton;
-
     constructor(props) {
         super(props);
 
         this.state = {
             date: "",
+            showRemoveButton: this.props.date.length ? true : false,
         };
-
-        if (this.props.date.length) {
-            this.removeButton = (
-                <button onClick={this.handleClick}>Verwijder einddatum</button>
-            );
-        }
     }
 
     handleChange = (e) => {
-        this.removeButton = (
-            <button onClick={this.handleClick}>Verwijder einddatum</button>
-        );
         this.setState(
             {
                 date: e.currentTarget.value,
+                showRemoveButton: true,
             },
             () => {
                 this.props.onChange(this.state.date);
@@ -32,6 +23,9 @@ export default class NoteDate extends Component {
     };
 
     handleClick = () => {
+        this.setState({
+            showRemoveButton: false,
+        });
         this.props.onRemove();
     };
 
@@ -44,7 +38,13 @@ export default class NoteDate extends Component {
                     value={this.state.date}
                     onChange={this.handleChange}
                 />
-                {this.removeButton}
+                {this.state.showRemoveButton ? (
+                    <button onClick={this.handleClick}>
+                        Verwijder einddatum
+                    </button>
+                ) : (
+                    ""
+                )}
             </div>
         );
     }

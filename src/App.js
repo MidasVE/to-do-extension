@@ -2,6 +2,7 @@ import "./App.css";
 import React, { Component } from "react";
 import Input from "./Input";
 import List from "./List";
+import ClearNotes from "./ClearNotes";
 
 class App extends Component {
     constructor(props) {
@@ -9,23 +10,41 @@ class App extends Component {
 
         this.state = {
             input: "",
+            date: "",
+            notesCleared: false,
         };
-
-        this.changeInput = this.changeInput.bind(this);
     }
 
-    changeInput(newInput) {
+    changeInput = (newInput) => {
         this.setState({
             input: newInput.text,
             date: newInput.date,
         });
-    }
+    };
+
+    clearNotes = () => {
+        this.setState(
+            {
+                notesCleared: true,
+            },
+            () => {
+                this.setState({
+                    notesCleared: false,
+                });
+            }
+        );
+    };
 
     render() {
         return (
             <div className="App">
+                <List
+                    input={this.state.input}
+                    date={this.state.date}
+                    notesCleared={this.state.notesCleared}
+                />
                 <Input onChange={this.changeInput} />
-                <List input={this.state.input} date={this.state.date} />
+                <ClearNotes onChange={this.clearNotes} />
             </div>
         );
     }

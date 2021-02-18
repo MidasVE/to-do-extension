@@ -1,3 +1,5 @@
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from "react";
 import NoteDate from "./NoteDate";
 import NoteText from "./NoteText";
@@ -55,12 +57,13 @@ export default class Note extends Component {
                     text={this.props.text}
                 />
                 <NoteDate
+                    id={this.props.id}
                     onChange={this.handleDateChange}
                     onRemove={this.handleDateRemoval}
                     date={this.props.date}
                 />
                 <button onClick={this.handleRemoveClick}>
-                    Verwijder to-do
+                    <FontAwesomeIcon icon={faTrashAlt} />
                 </button>
             </div>
         );

@@ -1,3 +1,5 @@
+import { faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from "react";
 
 export default class Input extends Component {
@@ -47,15 +49,22 @@ export default class Input extends Component {
         return (
             <form>
                 <input
+                    placeholder="Voeg hier to-do toe"
                     onChange={this.handleChange}
                     type="text"
                     value={this.state.text}
                 />
-                <input
-                    onChange={this.handleChange}
-                    type="date"
-                    value={this.state.date}
-                />
+                <div className="date-input">
+                    <label htmlFor="dateInputGeneral">
+                        <FontAwesomeIcon icon={faCalendarPlus} />
+                    </label>
+                    <input
+                        id="dateInputGeneral"
+                        onChange={this.handleChange}
+                        type="date"
+                        value={this.state.date}
+                    />
+                </div>
                 <span className="error">{this.state.error}</span>
                 <button onClick={this.handleSubmit}>Voeg to-do toe</button>
             </form>

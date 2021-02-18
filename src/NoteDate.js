@@ -1,4 +1,10 @@
+import {
+    faCalendarPlus,
+    faCalendarTimes,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from "react";
+import "./Input.css";
 
 export default class NoteDate extends Component {
     constructor(props) {
@@ -33,14 +39,20 @@ export default class NoteDate extends Component {
         return (
             <div>
                 {this.props.date}
-                <input
-                    type="date"
-                    value={this.state.date}
-                    onChange={this.handleChange}
-                />
+                <div className="date-input">
+                    <label htmlFor={"dateInput" + this.props.id}>
+                        <FontAwesomeIcon icon={faCalendarPlus} />
+                    </label>
+                    <input
+                        id={"dateInput" + this.props.id}
+                        type="date"
+                        value={this.state.date}
+                        onChange={this.handleChange}
+                    />
+                </div>
                 {this.state.showRemoveButton ? (
                     <button onClick={this.handleClick}>
-                        Verwijder einddatum
+                        <FontAwesomeIcon icon={faCalendarTimes} />
                     </button>
                 ) : (
                     ""

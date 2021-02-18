@@ -46,6 +46,7 @@ export default class Note extends Component {
     render() {
         return (
             <div
+                className="note"
                 draggable={this.state.draggable}
                 id={this.props.id}
                 onDragOver={(e) => e.preventDefault()}

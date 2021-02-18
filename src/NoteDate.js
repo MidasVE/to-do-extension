@@ -1,4 +1,5 @@
 import {
+    faCalendarAlt,
     faCalendarPlus,
     faCalendarTimes,
 } from "@fortawesome/free-solid-svg-icons";
@@ -12,7 +13,7 @@ export default class NoteDate extends Component {
 
         this.state = {
             date: "",
-            showRemoveButton: this.props.date.length ? true : false,
+            dateAdded: this.props.date.length ? true : false,
         };
     }
 
@@ -20,7 +21,7 @@ export default class NoteDate extends Component {
         this.setState(
             {
                 date: e.currentTarget.value,
-                showRemoveButton: true,
+                dateAdded: true,
             },
             () => {
                 this.props.onChange(this.state.date);
@@ -30,7 +31,7 @@ export default class NoteDate extends Component {
 
     handleClick = () => {
         this.setState({
-            showRemoveButton: false,
+            dateAdded: false,
         });
         this.props.onRemove();
     };
@@ -41,16 +42,25 @@ export default class NoteDate extends Component {
                 {this.props.date}
                 <div className="date-input">
                     <label htmlFor={"dateInput" + this.props.id}>
-                        <FontAwesomeIcon icon={faCalendarPlus} />
+                        {this.state.dateAdded ? (
+                            <FontAwesomeIcon icon={faCalendarAlt} />
+                        ) : (
+                            <FontAwesomeIcon icon={faCalendarPlus} />
+                        )}
                     </label>
                     <input
                         id={"dateInput" + this.props.id}
+                        title={
+                            this.state.dateAdded
+                                ? "Verander einddatum"
+                                : "Voeg einddatum toe"
+                        }
                         type="date"
                         value={this.state.date}
                         onChange={this.handleChange}
                     />
                 </div>
-                {this.state.showRemoveButton ? (
+                {this.state.dateAdded ? (
                     <button onClick={this.handleClick}>
                         <FontAwesomeIcon icon={faCalendarTimes} />
                     </button>

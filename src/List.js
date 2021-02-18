@@ -1,4 +1,3 @@
-import "./List.css";
 import React, { Component } from "react";
 import Note from "./Note";
 import ls from "local-storage";
@@ -190,7 +189,7 @@ export default class List extends Component {
 
     render() {
         return (
-            <div>
+            <div className="flex flex-wrap">
                 {this.state.notes
                     .sort((a, b) => a.order - b.order)
                     .map((note) => (

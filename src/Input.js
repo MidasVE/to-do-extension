@@ -1,6 +1,7 @@
 import { faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 
 export default class Input extends Component {
     constructor(props) {
@@ -17,13 +18,13 @@ export default class Input extends Component {
     }
 
     handleChange(e) {
-        if (e.target.type === "text") {
+        if (e.target.type === "date") {
             this.setState({
-                text: e.target.value,
+                date: e.target.value,
             });
         } else {
             this.setState({
-                date: e.target.value,
+                text: e.target.value,
             });
         }
     }
@@ -47,8 +48,8 @@ export default class Input extends Component {
 
     render() {
         return (
-            <form>
-                <input
+            <form className="note">
+                <TextareaAutosize
                     placeholder="Voeg hier to-do toe"
                     onChange={this.handleChange}
                     type="text"

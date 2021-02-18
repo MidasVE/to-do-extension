@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TextareaAutoResize from "react-textarea-autosize";
 
 export default class NoteText extends Component {
     constructor(props) {
@@ -19,15 +20,6 @@ export default class NoteText extends Component {
     }
 
     handleClick() {
-        this.setState(
-            {
-                elementType: "input",
-            },
-            () => {
-                this.textInput.current.focus();
-            }
-        );
-
         this.props.onChange(false);
     }
 
@@ -38,34 +30,24 @@ export default class NoteText extends Component {
     }
 
     handleSubmit(e) {
-        if (e.key === "Enter") {
-            this.submit();
-        }
-
         if (e.type === "blur") {
             this.submit();
         }
     }
 
     submit() {
-        this.setState({
-            elementType: "div",
-        });
-
         this.props.onChange(true, this.state.text);
     }
 
     render() {
-        return this.state.elementType === "div" ? (
-            <div onClick={this.handleClick}>{this.state.text}</div>
-        ) : (
-            <input
+        return (
+            <TextareaAutoResize
                 ref={this.textInput}
                 onChange={this.handleChange}
                 onKeyDown={this.handleSubmit}
                 onBlur={this.handleSubmit}
                 value={this.state.text}
-            ></input>
+            />
         );
     }
 }

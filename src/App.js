@@ -36,7 +36,7 @@ class App extends Component {
 
     render() {
         return (
-            <div className="text-gray-800">
+            <div className="bg-gray-100 text-gray-600 min-h-screen">
                 <List
                     input={this.state.input}
                     date={this.state.date}

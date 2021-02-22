@@ -189,7 +189,7 @@ export default class List extends Component {
 
     render() {
         return (
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap items-start">
                 {this.state.notes
                     .sort((a, b) => a.order - b.order)
                     .map((note) => (
@@ -197,6 +197,7 @@ export default class List extends Component {
                             text={note.text}
                             key={note.id}
                             id={note.id}
+                            order={note.order}
                             date={note.date}
                             onChange={this.handleChange}
                         />

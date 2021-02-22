@@ -43,10 +43,25 @@ export default class Note extends Component {
         this.props.onChange("dateRemove", this.props.id);
     };
 
+    differentBgColor = () => {
+        switch (this.props.order % 5) {
+            case 1:
+                return "green";
+            case 2:
+                return "indigo";
+            case 3:
+                return "yellow";
+            case 4:
+                return "red";
+            case 0:
+                return "blue";
+        }
+    };
+
     render() {
         return (
             <div
-                className="note"
+                className={"note bg-" + this.differentBgColor() + "-200"}
                 draggable={this.state.draggable}
                 id={this.props.id}
                 onDragOver={(e) => e.preventDefault()}
@@ -57,15 +72,18 @@ export default class Note extends Component {
                     onChange={this.handleTextChange}
                     text={this.props.text}
                 />
-                <NoteDate
-                    id={this.props.id}
-                    onChange={this.handleDateChange}
-                    onRemove={this.handleDateRemoval}
-                    date={this.props.date}
-                />
-                <button onClick={this.handleRemoveClick}>
-                    <FontAwesomeIcon icon={faTrashAlt} />
-                </button>
+                <div className="flex justify-end">
+                    <NoteDate
+                        id={this.props.id}
+                        onChange={this.handleDateChange}
+                        onRemove={this.handleDateRemoval}
+                        date={this.props.date}
+                        newNote={false}
+                    />
+                    <button className="ml-2" onClick={this.handleRemoveClick}>
+                        <FontAwesomeIcon icon={faTrashAlt} />
+                    </button>
+                </div>
             </div>
         );
     }

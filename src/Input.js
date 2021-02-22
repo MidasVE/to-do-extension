@@ -1,7 +1,8 @@
-import { faCalendarPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Component } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import NoteDate from "./NoteDate";
 
 export default class Input extends Component {
     constructor(props) {
@@ -48,26 +49,30 @@ export default class Input extends Component {
 
     render() {
         return (
-            <form className="note">
+            <form className="note bg-red-200">
                 <TextareaAutosize
-                    placeholder="Voeg hier to-do toe"
+                    placeholder="+ Voeg to-do toe"
                     onChange={this.handleChange}
                     type="text"
                     value={this.state.text}
+                    spellCheck="false"
                 />
-                <div className="date-input">
-                    <label htmlFor="dateInputGeneral">
-                        <FontAwesomeIcon icon={faCalendarPlus} />
-                    </label>
-                    <input
-                        id="dateInputGeneral"
-                        onChange={this.handleChange}
-                        type="date"
-                        value={this.state.date}
-                    />
+                <div className="flex justify-end items-center flex-wrap">
+                    <span className="text-red-500 w-full text-center">
+                        {this.state.error}
+                    </span>
+                    <div className="my-2 w-full flex justify-end">
+                        <NoteDate
+                            isNewNote={true}
+                            onChange={this.handleDateChange}
+                            onRemove={this.handleDateRemoval}
+                            date={""}
+                        />
+                    </div>
+                    <button onClick={this.handleSubmit} className="ml-1">
+                        <FontAwesomeIcon icon={faPlus} size="2x" />
+                    </button>
                 </div>
-                <span className="error">{this.state.error}</span>
-                <button onClick={this.handleSubmit}>Voeg to-do toe</button>
             </form>
         );
     }

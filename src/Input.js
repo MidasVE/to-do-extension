@@ -52,7 +52,7 @@ export default class Input extends Component {
 
     render() {
         return (
-            <form className="note w-60 m-4 bg-red-200">
+            <form className="note w-72 m-4 bg-red-200">
                 <TextareaAutosize
                     placeholder="+ Voeg to-do toe"
                     onChange={this.handleTextChange}
@@ -61,9 +61,6 @@ export default class Input extends Component {
                     spellCheck="false"
                 />
                 <div className="flex justify-end items-center flex-wrap">
-                    <span className="text-red-500 w-full text-center">
-                        {this.state.error}
-                    </span>
                     <div className="my-2 w-full flex justify-end">
                         <NoteDate
                             isNewNote={true}
@@ -72,6 +69,9 @@ export default class Input extends Component {
                             date={this.state.date}
                         />
                     </div>
+                    <span className="text-red-500 mr-2">
+                        {this.state.error}
+                    </span>
                     <button onClick={this.handleSubmit} className="ml-1">
                         <FontAwesomeIcon icon={faPlus} size="2x" />
                     </button>

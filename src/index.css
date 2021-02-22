@@ -2,25 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-input,
-textarea {
-    @apply rounded border-none bg-transparent w-full resize-none;
-}
+@layer base {
+    @font-face {
+        font-family: "JosefinSans";
+        src: url("./fonts/JosefinSans.ttf");
+    }
 
-input:focus,
-textarea:focus,
-button:focus {
-    border: none;
-    outline: none;
-}
+    input,
+    textarea {
+        @apply rounded border-none bg-transparent w-full resize-none;
+    }
 
-.note {
-    @apply p-8 shadow flex flex-col justify-between rounded-3xl;
-    min-height: 250px;
-}
+    input:focus,
+    textarea:focus,
+    button:focus {
+        border: none;
+        outline: none;
+    }
 
-textarea::placeholder,
-textarea::-ms-input-placeholder {
-    color: rgb(75, 85, 99);
-    text-align: center;
+    .note {
+        @apply p-8 shadow flex flex-col justify-between rounded-3xl;
+        min-height: 270px;
+    }
+
+    textarea::placeholder,
+    textarea::-ms-input-placeholder {
+        color: rgb(75, 85, 99);
+        text-align: center;
+    }
 }

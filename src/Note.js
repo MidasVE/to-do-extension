@@ -90,7 +90,7 @@ export default class Note extends Component {
                     opacity: this.state.opacity,
                     margin: this.state.margin,
                 }}
-                className="m-4 w-60 transition-all"
+                className="m-4 w-72 transition-all"
             >
                 <div
                     className={"note bg-" + this.differentBgColor() + "-200"}

@@ -8,9 +8,6 @@ export default class Input extends Component {
     constructor(props) {
         super(props);
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-
         this.state = {
             text: "",
             date: "",
@@ -18,19 +15,25 @@ export default class Input extends Component {
         };
     }
 
-    handleChange(e) {
-        if (e.target.type === "date") {
-            this.setState({
-                date: e.target.value,
-            });
-        } else {
-            this.setState({
-                text: e.target.value,
-            });
-        }
-    }
+    handleTextChange = (e) => {
+        this.setState({
+            text: e.target.value,
+        });
+    };
 
-    handleSubmit(e) {
+    handleDateChange = (date) => {
+        this.setState({
+            date: date,
+        });
+    };
+
+    handleDateRemoval = () => {
+        this.setState({
+            date: "",
+        });
+    };
+
+    handleSubmit = (e) => {
         e.preventDefault();
         if (this.state.text !== "") {
             this.setState({ error: "" });
@@ -45,14 +48,14 @@ export default class Input extends Component {
         } else {
             this.setState({ error: "Vul een to do in." });
         }
-    }
+    };
 
     render() {
         return (
             <form className="note w-60 m-4 bg-red-200">
                 <TextareaAutosize
                     placeholder="+ Voeg to-do toe"
-                    onChange={this.handleChange}
+                    onChange={this.handleTextChange}
                     type="text"
                     value={this.state.text}
                     spellCheck="false"
@@ -66,7 +69,7 @@ export default class Input extends Component {
                             isNewNote={true}
                             onChange={this.handleDateChange}
                             onRemove={this.handleDateRemoval}
-                            date={""}
+                            date={this.state.date}
                         />
                     </div>
                     <button onClick={this.handleSubmit} className="ml-1">

@@ -4,7 +4,7 @@ import {
     faCalendarTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { format, formatRelative } from "date-fns";
+import { formatRelative } from "date-fns";
 import { nlBE } from "date-fns/locale";
 import React, { Component } from "react";
 import "./Input.css";
@@ -45,9 +45,7 @@ export default class NoteDate extends Component {
                 dateAdded: true,
             },
             () => {
-                if (!this.props.isNewNote) {
-                    this.props.onChange(this.state.date);
-                }
+                this.props.onChange(this.state.date);
             }
         );
     };
@@ -55,30 +53,33 @@ export default class NoteDate extends Component {
     handleClick = () => {
         this.setState({
             dateAdded: false,
+            date: "",
         });
-        if (this.props.isNewNote) {
-            this.setState({
-                date: "",
-            });
-        } else {
-            this.props.onRemove();
-        }
+        this.props.onRemove();
     };
 
-    dateFormatted(isNewNote) {
-        if (isNewNote) {
-            return this.state.date
-                ? format(new Date(this.state.date), "d MMMM yyyy", {
-                      locale: nlBE,
-                  })
-                : "";
-        } else {
-            return this.props.date
-                ? formatRelative(new Date(this.props.date), new Date(), {
-                      locale: locale,
-                  })
-                : "";
+    dateFormatted() {
+        return this.props.date
+            ? formatRelative(new Date(this.props.date), new Date(), {
+                  locale: locale,
+              })
+            : "";
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState !== this.state) {
+            return;
         }
+
+        this.props.date
+            ? this.setState({
+                  date: "",
+                  dateAdded: this.props.date.length ? true : false,
+              })
+            : this.setState({
+                  date: "",
+                  dateAdded: false,
+              });
     }
 
     render() {

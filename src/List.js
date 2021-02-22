@@ -200,6 +200,7 @@ export default class List extends Component {
                             order={note.order}
                             date={note.date}
                             onChange={this.handleChange}
+                            last={this.state.notes.length === 1}
                         />
                     ))}
             </div>

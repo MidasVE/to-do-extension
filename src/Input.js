@@ -49,7 +49,7 @@ export default class Input extends Component {
 
     render() {
         return (
-            <form className="note bg-red-200">
+            <form className="note w-60 m-4 bg-red-200">
                 <TextareaAutosize
                     placeholder="+ Voeg to-do toe"
                     onChange={this.handleChange}

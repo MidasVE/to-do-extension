@@ -15,7 +15,7 @@ button:focus {
 }
 
 .note {
-    @apply p-8 m-4 shadow w-60 flex flex-col justify-between rounded-3xl;
+    @apply p-8 shadow flex flex-col justify-between rounded-3xl;
     min-height: 250px;
 }
 

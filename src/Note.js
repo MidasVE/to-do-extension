@@ -59,21 +59,6 @@ export default class Note extends Component {
         this.props.onChange("dateRemove", this.props.id);
     };
 
-    differentBgColor = () => {
-        switch (this.props.order % 5) {
-            case 1:
-                return "green";
-            case 2:
-                return "indigo";
-            case 3:
-                return "yellow";
-            case 4:
-                return "red";
-            case 0:
-                return "blue";
-        }
-    };
-
     componentDidMount() {
         this.setState({
             height: "auto",
@@ -93,7 +78,7 @@ export default class Note extends Component {
                 className="m-4 w-72 transition-all"
             >
                 <div
-                    className={"note bg-" + this.differentBgColor() + "-200"}
+                    className={"note bg-" + this.props.backgroundColor + "-200"}
                     draggable={this.state.draggable}
                     id={this.props.id}
                     onDragOver={(e) => e.preventDefault()}

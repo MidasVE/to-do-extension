@@ -19,6 +19,9 @@ export default class List extends Component {
             id: Date.now(),
             date: date,
             order: this.getHighestOrder(this.state.notes) + 1,
+            backgroundColor: this.differentBgColor(
+                this.getHighestOrder(this.state.notes) + 1
+            ),
         };
 
         const newNotes = this.state.notes.concat(newNote);
@@ -146,6 +149,17 @@ export default class List extends Component {
         this.updateNotes(newNotes);
     };
 
+    updateNotes = (newNotes) => {
+        this.setState(
+            {
+                notes: newNotes,
+            },
+            () => {
+                ls.set("notes", this.state.notes);
+            }
+        );
+    };
+
     getHighestOrder = (notes) => {
         if (!notes.length) {
             return 0;
@@ -161,15 +175,19 @@ export default class List extends Component {
         return Math.max(...orderArray);
     };
 
-    updateNotes = (newNotes) => {
-        this.setState(
-            {
-                notes: newNotes,
-            },
-            () => {
-                ls.set("notes", this.state.notes);
-            }
-        );
+    differentBgColor = (order) => {
+        switch (order % 5) {
+            case 1:
+                return "green";
+            case 2:
+                return "indigo";
+            case 3:
+                return "yellow";
+            case 4:
+                return "red";
+            case 0:
+                return "blue";
+        }
     };
 
     componentDidMount() {
@@ -208,6 +226,7 @@ export default class List extends Component {
                             order={note.order}
                             date={note.date}
                             onChange={this.handleChange}
+                            backgroundColor={note.backgroundColor}
                             last={this.state.notes.length === 1}
                         />
                     ))}

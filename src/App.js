@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Input from "./Input";
 import List from "./List";
 import ClearNotes from "./ClearNotes";
+import ls from "local-storage";
 
 class App extends Component {
     constructor(props) {
@@ -11,7 +12,7 @@ class App extends Component {
             input: "",
             date: "",
             notesCleared: false,
-            clearButtonVisible: false,
+            clearButtonVisible: ls.get("clearbutton"),
         };
     }
 
@@ -39,6 +40,8 @@ class App extends Component {
         this.setState({
             clearButtonVisible: show,
         });
+
+        ls.set("clearbutton", show);
     };
 
     render() {

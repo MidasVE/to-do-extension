@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Note from "./Note";
 import ls from "local-storage";
 import { confirmAlert } from "react-confirm-alert";
+import "./ConfirmAlert.css";
 
 export default class List extends Component {
     constructor(props) {
@@ -22,6 +23,8 @@ export default class List extends Component {
 
         const newNotes = this.state.notes.concat(newNote);
 
+        this.props.toggleClearButton(true);
+
         this.updateNotes(newNotes);
     };
 
@@ -38,12 +41,13 @@ export default class List extends Component {
                     label: "Nee",
                 },
             ],
-            overlayClassName: "confirm-overlay",
             closeOnClickOutside: true,
         });
     };
 
     clearNotes = () => {
+        this.props.toggleClearButton(false);
+
         this.setState(
             {
                 notes: [],
@@ -81,6 +85,10 @@ export default class List extends Component {
         const newNotes = this.state.notes.filter((obj) => {
             return obj.id !== id;
         });
+
+        if (newNotes.length === 0) {
+            this.props.toggleClearButton(false);
+        }
         this.updateNotes(newNotes);
     };
 

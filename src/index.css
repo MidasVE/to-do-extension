@@ -22,12 +22,17 @@
 
     .note {
         @apply p-8 shadow flex flex-col justify-between rounded-3xl;
-        min-height: 270px;
+        min-height: 280px;
     }
 
     textarea::placeholder,
     textarea::-ms-input-placeholder {
         color: rgb(75, 85, 99);
         text-align: center;
+    }
+
+    button.pressed {
+        box-shadow: none;
+        transform: translate(1px, 1px);
     }
 }

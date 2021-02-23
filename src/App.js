@@ -11,6 +11,7 @@ class App extends Component {
             input: "",
             date: "",
             notesCleared: false,
+            clearButtonVisible: false,
         };
     }
 
@@ -34,6 +35,12 @@ class App extends Component {
         );
     };
 
+    toggleClearButton = (show) => {
+        this.setState({
+            clearButtonVisible: show,
+        });
+    };
+
     render() {
         return (
             <div className="bg-gray-100 text-gray-600 min-h-screen">
@@ -41,9 +48,14 @@ class App extends Component {
                     input={this.state.input}
                     date={this.state.date}
                     notesCleared={this.state.notesCleared}
+                    toggleClearButton={this.toggleClearButton}
                 />
                 <Input onChange={this.changeInput} />
-                <ClearNotes onChange={this.clearNotes} />
+                {this.state.clearButtonVisible ? (
+                    <ClearNotes onChange={this.clearNotes} />
+                ) : (
+                    ""
+                )}
             </div>
         );
     }

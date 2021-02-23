@@ -29,7 +29,8 @@ export default class NoteDate extends Component {
 
         this.state = this.props.date
             ? {
-                  date: "",
+                  date: this.props.date,
+                  isExpired: new Date(this.props.date) <= Date.now(),
                   dateAdded: this.props.date.length ? true : false,
               }
             : {
@@ -42,6 +43,7 @@ export default class NoteDate extends Component {
         this.setState(
             {
                 date: e.currentTarget.value,
+                isExpired: new Date(e.currentTarget.value) <= Date.now(),
                 dateAdded: true,
             },
             () => {
@@ -73,7 +75,7 @@ export default class NoteDate extends Component {
 
         this.props.date
             ? this.setState({
-                  date: "",
+                  date: this.props.date,
                   dateAdded: this.props.date.length ? true : false,
               })
             : this.setState({
@@ -85,8 +87,12 @@ export default class NoteDate extends Component {
     render() {
         return (
             <div className="flex justify-end">
-                <span className="mr-1">
-                    {this.dateFormatted(this.props.isNewNote)}
+                <span
+                    className={
+                        "mr-1" + (this.state.isExpired ? " text-red-500" : "")
+                    }
+                >
+                    {this.dateFormatted()}
                 </span>
                 <div className="date-input mx-1">
                     <label htmlFor={"dateInput" + this.props.id}>

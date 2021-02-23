@@ -49,6 +49,7 @@ export default class NoteText extends Component {
                     onBlur={this.handleSubmit}
                     value={this.state.text}
                     spellCheck="false"
+                    cacheMeasurements={true}
                 />
             </div>
         );

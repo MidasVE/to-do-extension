@@ -48,7 +48,7 @@ class App extends Component {
     render() {
         return (
             <div className="flex">
-                <div className="bg-gray-100 text-gray-600 min-h-screen flex-grow p-12">
+                <div className="bg-gray-100 text-gray-600 text-base min-h-screen flex-grow p-12">
                     <List
                         input={this.state.input}
                         date={this.state.date}

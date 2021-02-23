@@ -77,6 +77,7 @@ export default class Note extends Component {
                 }}
                 className="m-4 w-72 transition-all"
             >
+                <div className="bg-red-200 bg-blue-200 bg-yellow-200 bg-green-200 bg-indigo-200 hidden"></div>
                 <div
                     className={"note bg-" + this.props.backgroundColor + "-200"}
                     draggable={this.state.draggable}

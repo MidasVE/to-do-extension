@@ -9,6 +9,7 @@ export default class List extends Component {
         super(props);
         this.state = {
             notes: [],
+            groupedNotes: [],
             dragId: 0,
         };
     }
@@ -54,6 +55,7 @@ export default class List extends Component {
         this.setState(
             {
                 notes: [],
+                groupedNotes: [],
             },
             () => {
                 ls.clear();
@@ -153,11 +155,17 @@ export default class List extends Component {
         this.setState(
             {
                 notes: newNotes,
+                groupedNotes: this.groupNotes(newNotes, "backgroundColor"),
             },
             () => {
                 ls.set("notes", this.state.notes);
             }
         );
+    };
+
+    groupNotes = (notes, key) => {
+        let groupedNotes = this.groupBy(notes, key);
+        return Object.entries(groupedNotes);
     };
 
     getHighestOrder = (notes) => {
@@ -190,9 +198,18 @@ export default class List extends Component {
         }
     };
 
+    groupBy = (objectArray, key) => {
+        return objectArray.reduce((value, x) => {
+            (value[x[key]] = value[x[key]] || []).push(x);
+            return value;
+        }, {});
+    };
+
     componentDidMount() {
         this.setState({
             notes: ls.get("notes") ?? [],
+            groupedNotes:
+                this.groupNotes(ls.get("notes"), "backgroundColor") ?? [],
         });
     }
 
@@ -216,20 +233,28 @@ export default class List extends Component {
     render() {
         return (
             <div className="flex flex-wrap items-start">
-                {this.state.notes
-                    .sort((a, b) => a.order - b.order)
-                    .map((note) => (
-                        <Note
-                            text={note.text}
-                            key={note.id}
-                            id={note.id}
-                            order={note.order}
-                            date={note.date}
-                            onChange={this.handleChange}
-                            backgroundColor={note.backgroundColor}
-                            last={this.state.notes.length === 1}
-                        />
-                    ))}
+                {this.state.groupedNotes.map((groupedNote, i) => {
+                    let color = groupedNote[0];
+                    let notes = groupedNote[1];
+
+                    return (
+                        <div key={i}>
+                            <h3>{color}</h3>
+                            {notes.map((note) => (
+                                <Note
+                                    text={note.text}
+                                    key={note.id}
+                                    id={note.id}
+                                    order={note.order}
+                                    date={note.date}
+                                    onChange={this.handleChange}
+                                    backgroundColor={note.backgroundColor}
+                                    last={this.state.notes.length === 1}
+                                />
+                            ))}
+                        </div>
+                    );
+                })}
             </div>
         );
     }

@@ -25,7 +25,7 @@ export default class Clock extends Component {
 
     render() {
         return (
-            <div className="flex flex-col items-center h-full justify-center">
+            <div className="flex flex-col items-center sticky justify-center clock-container">
                 <div className="text-9xl">
                     {this.state.date.toLocaleTimeString([], {
                         hour: "2-digit",

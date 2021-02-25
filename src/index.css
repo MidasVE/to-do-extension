@@ -40,6 +40,11 @@
     .animate-fadein {
         animation: fadein 0.5s cubic-bezier(0.4, 0, 0.6, 1) forwards;
     }
+
+    .clock-container {
+        top: calc(50% + 3rem);
+        transform: translateY(-50%);
+    }
 }
 
 @keyframes fadein {

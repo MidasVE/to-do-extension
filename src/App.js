@@ -15,7 +15,7 @@ class App extends Component {
             date: "",
             category: "",
             notesCleared: false,
-            clearButtonVisible: ls.get("clearbutton"),
+            buttonsVisible: ls.get("buttons"),
             isGrouped: ls.get("isGrouped"),
         };
     }
@@ -54,16 +54,16 @@ class App extends Component {
 
     toggleClearButton = (show) => {
         this.setState({
-            clearButtonVisible: show,
+            buttonsVisible: show,
         });
 
-        ls.set("clearbutton", show);
+        ls.set("buttons", show);
     };
 
     render() {
         return (
             <div className="flex">
-                <div className="bg-gray-100 text-gray-600 text-base min-h-screen flex-grow p-12 flex flex-col justify-between">
+                <div className="bg-gray-100 text-gray-600 text-base min-h-screen flex-grow p-12 flex flex-col justify-between relative">
                     <div>
                         <List
                             input={this.state.input}
@@ -75,8 +75,8 @@ class App extends Component {
                         />
                         <Input onChange={this.changeInput} />
                     </div>
-                    {this.state.clearButtonVisible ? (
-                        <div className="flex self-end justify-self-end">
+                    {this.state.buttonsVisible ? (
+                        <div className="flex fixed bottom-8 w-min right-1/4 pr-8">
                             <Button
                                 onChange={this.clearNotes}
                                 icon={faTrashAlt}
@@ -98,7 +98,7 @@ class App extends Component {
                         ""
                     )}
                 </div>
-                <div className="bg-blue-200 text-gray-600 p-12 w-1/5">
+                <div className="bg-blue-200 text-gray-600 p-12 w-1/4 flex-shrink-0">
                     <Clock></Clock>
                 </div>
             </div>

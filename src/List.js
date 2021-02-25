@@ -27,8 +27,6 @@ export default class List extends Component {
             ),
         };
 
-        console.log(newNote);
-
         const newNotes = this.state.notes.concat(newNote);
 
         this.props.toggleClearButton(true);
@@ -159,7 +157,7 @@ export default class List extends Component {
         this.setState(
             {
                 notes: newNotes,
-                groupedNotes: this.groupNotes(newNotes, "backgroundColor"),
+                groupedNotes: this.groupNotes(newNotes, "category"),
             },
             () => {
                 ls.set("notes", this.state.notes);
@@ -202,21 +200,26 @@ export default class List extends Component {
         }
     };
 
-    groupBy = (objectArray, key) => {
-        if (!objectArray) {
+    groupBy = (data, key) => {
+        if (!data) {
             return {};
         }
-        return objectArray.reduce((value, x) => {
-            (value[x[key]] = value[x[key]] || []).push(x);
-            return value;
+
+        return data.reduce(function (storage, item) {
+            var group = item[key];
+            if (group === undefined) {
+                group = "";
+            }
+            storage[group] = storage[group] || [];
+            storage[group].push(item);
+            return storage;
         }, {});
     };
 
     componentDidMount() {
         this.setState({
             notes: ls.get("notes") ?? [],
-            groupedNotes:
-                this.groupNotes(ls.get("notes"), "backgroundColor") ?? [],
+            groupedNotes: this.groupNotes(ls.get("notes"), "category") ?? [],
         });
     }
 
@@ -253,12 +256,18 @@ export default class List extends Component {
             <div className="flex flex-wrap items-start">
                 {this.state.isGrouped
                     ? this.state.groupedNotes.sort().map((groupedNote, i) => {
-                          let color = groupedNote[0];
+                          let category = groupedNote[0];
                           let notes = groupedNote[1];
 
                           return (
-                              <div key={i}>
-                                  <h3>{color}</h3>
+                              <div key={i} className="flex w-full flex-wrap">
+                                  {category !== "" ? (
+                                      <h3 className="w-full font-bold text-lg">
+                                          {category}
+                                      </h3>
+                                  ) : (
+                                      ""
+                                  )}
                                   {notes.map((note) => (
                                       <Note
                                           text={note.text}

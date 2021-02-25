@@ -21,7 +21,6 @@ class App extends Component {
     }
 
     changeInput = (newInput) => {
-        console.log(newInput);
         this.setState({
             input: newInput.text,
             date: newInput.date,

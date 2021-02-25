@@ -94,7 +94,6 @@ export default class Note extends Component {
                         onChange={this.handleTextChange}
                         text={this.props.text}
                     />
-                    {this.props.category}
                     <div className="flex justify-end">
                         <NoteDate
                             id={this.props.id}

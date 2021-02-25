@@ -47,7 +47,7 @@ export default class Input extends Component {
             this.props.onChange({
                 text: this.state.text,
                 date: this.state.date,
-                category: this.state.category,
+                category: this.capitalizeFirstLetter(this.state.category),
             });
             this.setState({
                 text: "",
@@ -57,6 +57,12 @@ export default class Input extends Component {
         } else {
             this.setState({ error: "Vul een to do in." });
         }
+    };
+
+    capitalizeFirstLetter = (string) => {
+        return (
+            string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+        ).trim();
     };
 
     render() {

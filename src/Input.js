@@ -12,6 +12,7 @@ export default class Input extends Component {
             text: "",
             date: "",
             error: "",
+            category: "",
         };
     }
 
@@ -33,6 +34,12 @@ export default class Input extends Component {
         });
     };
 
+    handleCategoryChange = (e) => {
+        this.setState({
+            category: e.target.value,
+        });
+    };
+
     handleSubmit = (e) => {
         e.preventDefault();
         if (this.state.text !== "") {
@@ -40,10 +47,12 @@ export default class Input extends Component {
             this.props.onChange({
                 text: this.state.text,
                 date: this.state.date,
+                category: this.state.category,
             });
             this.setState({
                 text: "",
                 date: "",
+                category: "",
             });
         } else {
             this.setState({ error: "Vul een to do in." });
@@ -59,6 +68,14 @@ export default class Input extends Component {
                     type="text"
                     value={this.state.text}
                     spellCheck="false"
+                />
+                <input
+                    type="text"
+                    id="category"
+                    value={this.state.category}
+                    onChange={this.handleCategoryChange}
+                    placeholder="+ Voeg categorie toe"
+                    className="mt-2 mb-auto"
                 />
                 <div className="flex justify-end items-center flex-wrap">
                     <div className="my-2 w-full flex justify-end">

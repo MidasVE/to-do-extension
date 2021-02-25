@@ -4,7 +4,7 @@ import List from "./List";
 import Button from "./Button";
 import ls from "local-storage";
 import Clock from "./Clock";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faList, faSort, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 class App extends Component {
     constructor(props) {
@@ -13,15 +13,19 @@ class App extends Component {
         this.state = {
             input: "",
             date: "",
+            category: "",
             notesCleared: false,
             clearButtonVisible: ls.get("clearbutton"),
+            isGrouped: ls.get("isGrouped"),
         };
     }
 
     changeInput = (newInput) => {
+        console.log(newInput);
         this.setState({
             input: newInput.text,
             date: newInput.date,
+            category: newInput.category,
         });
     };
 
@@ -34,6 +38,17 @@ class App extends Component {
                 this.setState({
                     notesCleared: false,
                 });
+            }
+        );
+    };
+
+    toggleGrouped = () => {
+        this.setState(
+            {
+                isGrouped: this.state.isGrouped ? false : true,
+            },
+            () => {
+                ls.set("isGrouped", this.state.isGrouped);
             }
         );
     };
@@ -54,18 +69,32 @@ class App extends Component {
                         <List
                             input={this.state.input}
                             date={this.state.date}
+                            category={this.state.category}
                             notesCleared={this.state.notesCleared}
                             toggleClearButton={this.toggleClearButton}
+                            isGrouped={this.state.isGrouped}
                         />
                         <Input onChange={this.changeInput} />
                     </div>
                     {this.state.clearButtonVisible ? (
-                        <Button
-                            onChange={this.clearNotes}
-                            icon={faTrashAlt}
-                            text="Verwijder alle to-do's"
-                            className="self-end justify-self-end animate-fadein"
-                        />
+                        <div className="flex self-end justify-self-end">
+                            <Button
+                                onChange={this.clearNotes}
+                                icon={faTrashAlt}
+                                text="Verwijder alle to-do's"
+                                className="animate-fadein "
+                            />
+                            <Button
+                                onChange={this.toggleGrouped}
+                                icon={this.state.isGrouped ? faSort : faList}
+                                text={
+                                    this.state.isGrouped
+                                        ? "Sorteer to-do's op prio"
+                                        : "Groepeer to-do's"
+                                }
+                                className="animate-fadein "
+                            />
+                        </div>
                     ) : (
                         ""
                     )}

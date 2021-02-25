@@ -11,19 +11,23 @@ export default class List extends Component {
             notes: [],
             groupedNotes: [],
             dragId: 0,
+            isGrouped: this.props.isGrouped,
         };
     }
 
-    addNote = (input, date) => {
+    addNote = (input, date, category) => {
         const newNote = {
             text: input,
             id: Date.now(),
             date: date,
+            category: category,
             order: this.getHighestOrder(this.state.notes) + 1,
             backgroundColor: this.differentBgColor(
                 this.getHighestOrder(this.state.notes) + 1
             ),
         };
+
+        console.log(newNote);
 
         const newNotes = this.state.notes.concat(newNote);
 
@@ -199,6 +203,9 @@ export default class List extends Component {
     };
 
     groupBy = (objectArray, key) => {
+        if (!objectArray) {
+            return {};
+        }
         return objectArray.reduce((value, x) => {
             (value[x[key]] = value[x[key]] || []).push(x);
             return value;
@@ -220,41 +227,71 @@ export default class List extends Component {
 
         if (
             prevProps.input !== this.props.input ||
-            prevProps.date !== this.props.date
+            prevProps.date !== this.props.date ||
+            prevProps.category !== this.props.category
         ) {
-            this.addNote(this.props.input, this.props.date);
+            this.addNote(
+                this.props.input,
+                this.props.date,
+                this.props.category
+            );
         }
 
         if (this.props.notesCleared) {
             this.confirmClear();
+        }
+
+        if (this.props.isGrouped !== prevProps.isGrouped) {
+            this.setState({
+                isGrouped: this.props.isGrouped,
+            });
         }
     }
 
     render() {
         return (
             <div className="flex flex-wrap items-start">
-                {this.state.groupedNotes.map((groupedNote, i) => {
-                    let color = groupedNote[0];
-                    let notes = groupedNote[1];
+                {this.state.isGrouped
+                    ? this.state.groupedNotes.sort().map((groupedNote, i) => {
+                          let color = groupedNote[0];
+                          let notes = groupedNote[1];
 
-                    return (
-                        <div key={i}>
-                            <h3>{color}</h3>
-                            {notes.map((note) => (
-                                <Note
-                                    text={note.text}
-                                    key={note.id}
-                                    id={note.id}
-                                    order={note.order}
-                                    date={note.date}
-                                    onChange={this.handleChange}
-                                    backgroundColor={note.backgroundColor}
-                                    last={this.state.notes.length === 1}
-                                />
-                            ))}
-                        </div>
-                    );
-                })}
+                          return (
+                              <div key={i}>
+                                  <h3>{color}</h3>
+                                  {notes.map((note) => (
+                                      <Note
+                                          text={note.text}
+                                          key={note.id}
+                                          id={note.id}
+                                          order={note.order}
+                                          date={note.date}
+                                          category={note.category}
+                                          draggable={false}
+                                          onChange={this.handleChange}
+                                          backgroundColor={note.backgroundColor}
+                                          last={this.state.notes.length === 1}
+                                      />
+                                  ))}
+                              </div>
+                          );
+                      })
+                    : this.state.notes
+                          .sort((a, b) => a.order - b.order)
+                          .map((note) => (
+                              <Note
+                                  text={note.text}
+                                  key={note.id}
+                                  id={note.id}
+                                  order={note.order}
+                                  date={note.date}
+                                  category={note.category}
+                                  draggable={true}
+                                  onChange={this.handleChange}
+                                  backgroundColor={note.backgroundColor}
+                                  last={this.state.notes.length === 1}
+                              />
+                          ))}
             </div>
         );
     }

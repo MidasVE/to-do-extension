@@ -25,10 +25,11 @@
         min-height: 280px;
     }
 
+    input::placeholder,
+    input::-ms-input-placeholder,
     textarea::placeholder,
     textarea::-ms-input-placeholder {
-        color: rgb(75, 85, 99);
-        text-align: center;
+        color: rgba(107, 114, 128);
     }
 
     button.pressed {

@@ -65,6 +65,7 @@ class App extends Component {
             <div className="flex">
                 <div className="bg-gray-100 text-gray-600 text-base min-h-screen flex-grow p-12 flex flex-col justify-between relative">
                     <div>
+                        <Input onChange={this.changeInput} />
                         <List
                             input={this.state.input}
                             date={this.state.date}
@@ -73,16 +74,9 @@ class App extends Component {
                             toggleClearButton={this.toggleClearButton}
                             isGrouped={this.state.isGrouped}
                         />
-                        <Input onChange={this.changeInput} />
                     </div>
-                    {this.state.buttonsVisible ? (
+                    {this.state.buttonsVisible && (
                         <div className="flex fixed bottom-8 w-min right-1/4 pr-8">
-                            <Button
-                                onChange={this.clearNotes}
-                                icon={faTrashAlt}
-                                text="Verwijder alle to-do's"
-                                className="animate-fadein "
-                            />
                             <Button
                                 onChange={this.toggleGrouped}
                                 icon={this.state.isGrouped ? faSort : faList}
@@ -93,9 +87,13 @@ class App extends Component {
                                 }
                                 className="animate-fadein "
                             />
+                            <Button
+                                onChange={this.clearNotes}
+                                icon={faTrashAlt}
+                                text="Verwijder alle to-do's"
+                                className="animate-fadein "
+                            />
                         </div>
-                    ) : (
-                        ""
                     )}
                 </div>
                 <div className="bg-blue-200 text-gray-600 p-12 w-1/4 flex-shrink-0">

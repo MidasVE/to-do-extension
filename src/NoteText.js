@@ -41,17 +41,15 @@ export default class NoteText extends Component {
 
     render() {
         return (
-            <div>
-                <TextareaAutoResize
-                    ref={this.textInput}
-                    onChange={this.handleChange}
-                    onKeyDown={this.handleSubmit}
-                    onBlur={this.handleSubmit}
-                    value={this.state.text}
-                    spellCheck="false"
-                    cacheMeasurements={true}
-                />
-            </div>
+            <TextareaAutoResize
+                ref={this.textInput}
+                onChange={this.handleChange}
+                onKeyDown={this.handleSubmit}
+                onBlur={this.handleSubmit}
+                value={this.state.text}
+                spellCheck="false"
+                cacheMeasurements={true}
+            />
         );
     }
 }

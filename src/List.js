@@ -74,7 +74,7 @@ export default class List extends Component {
                 this.dragNote(id);
                 break;
             case "drop":
-                this.dropNote(id);
+                this.dropNote(id, this.state.isGrouped);
                 break;
             case "text":
                 this.changeText(id, input);
@@ -105,28 +105,40 @@ export default class List extends Component {
         });
     };
 
-    dropNote = (id) => {
+    dropNote = (id, isGrouped) => {
         const dragNote = this.state.notes.find(
             (note) => note.id === this.state.dragId
         );
         const dropNote = this.state.notes.find(
             (note) => note.id === parseInt(id)
         );
+        const dragNoteCategory = dragNote.category;
+        const dropNoteCategory = dropNote.category;
+        if (isGrouped && dragNoteCategory !== dropNoteCategory) {
+            const newNotes = this.state.notes.map((note) => {
+                if (note.id === this.state.dragId) {
+                    note.category = dropNoteCategory;
+                }
+                return note;
+            });
 
-        const dragNoteOrder = dragNote.order;
-        const dropNoteOrder = dropNote.order;
+            this.updateNotes(newNotes);
+        } else {
+            const dragNoteOrder = dragNote.order;
+            const dropNoteOrder = dropNote.order;
 
-        const newNotes = this.state.notes.map((note) => {
-            if (note.id === this.state.dragId) {
-                note.order = dropNoteOrder;
-            }
-            if (note.id === parseInt(id)) {
-                note.order = dragNoteOrder;
-            }
-            return note;
-        });
+            const newNotes = this.state.notes.map((note) => {
+                if (note.id === this.state.dragId) {
+                    note.order = dropNoteOrder;
+                }
+                if (note.id === parseInt(id)) {
+                    note.order = dragNoteOrder;
+                }
+                return note;
+            });
 
-        this.updateNotes(newNotes);
+            this.updateNotes(newNotes);
+        }
     };
 
     changeText = (id, text) => {
@@ -261,27 +273,31 @@ export default class List extends Component {
 
                           return (
                               <div key={i} className="flex w-full flex-wrap">
-                                  {category !== "" ? (
+                                  {category !== "" && (
                                       <h3 className="w-full font-bold text-lg">
                                           {category}
                                       </h3>
-                                  ) : (
-                                      ""
                                   )}
-                                  {notes.map((note) => (
-                                      <Note
-                                          text={note.text}
-                                          key={note.id}
-                                          id={note.id}
-                                          order={note.order}
-                                          date={note.date}
-                                          category={note.category}
-                                          draggable={false}
-                                          onChange={this.handleChange}
-                                          backgroundColor={note.backgroundColor}
-                                          last={this.state.notes.length === 1}
-                                      />
-                                  ))}
+                                  {notes
+                                      .sort((a, b) => a.order - b.order)
+                                      .map((note) => (
+                                          <Note
+                                              text={note.text}
+                                              key={note.id}
+                                              id={note.id}
+                                              order={note.order}
+                                              date={note.date}
+                                              category={note.category}
+                                              onChange={this.handleChange}
+                                              backgroundColor={
+                                                  note.backgroundColor
+                                              }
+                                              last={
+                                                  this.state.notes.length === 1
+                                              }
+                                              isGrouped={true}
+                                          />
+                                      ))}
                               </div>
                           );
                       })
@@ -295,10 +311,10 @@ export default class List extends Component {
                                   order={note.order}
                                   date={note.date}
                                   category={note.category}
-                                  draggable={true}
                                   onChange={this.handleChange}
                                   backgroundColor={note.backgroundColor}
                                   last={this.state.notes.length === 1}
+                                  isGrouped={false}
                               />
                           ))}
             </div>

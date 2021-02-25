@@ -10,7 +10,7 @@ export default class Note extends Component {
         super(props);
 
         this.state = {
-            draggable: this.props.draggable,
+            draggable: true,
             height: 0,
         };
     }
@@ -34,15 +34,11 @@ export default class Note extends Component {
     };
 
     handleDrag = () => {
-        if (this.state.draggable) {
-            this.props.onChange("drag", this.props.id);
-        }
+        this.props.onChange("drag", this.props.id);
     };
 
     handleDrop = (e) => {
-        if (this.state.draggable) {
-            this.props.onChange("drop", e.currentTarget.id);
-        }
+        this.props.onChange("drop", e.currentTarget.id);
     };
 
     handleTextChange = (draggable, text = "") => {
@@ -94,6 +90,11 @@ export default class Note extends Component {
                         onChange={this.handleTextChange}
                         text={this.props.text}
                     />
+                    {!this.props.isGrouped && this.props.category && (
+                        <span className="absolute -top-2 -right-2 bg-gray-500 text-white py-2 px-4 rounded-3xl shadow">
+                            {this.props.category}
+                        </span>
+                    )}
                     <div className="flex justify-end">
                         <NoteDate
                             id={this.props.id}

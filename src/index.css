@@ -21,8 +21,9 @@
     }
 
     .note {
-        @apply p-8 shadow flex flex-col justify-between rounded-3xl;
+        @apply p-8 shadow flex flex-col justify-between rounded-3xl relative;
         min-height: 280px;
+        opacity: 0.99;
     }
 
     input::placeholder,

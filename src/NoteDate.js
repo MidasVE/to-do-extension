@@ -114,12 +114,10 @@ export default class NoteDate extends Component {
                         onChange={this.handleChange}
                     />
                 </div>
-                {this.state.dateAdded ? (
+                {this.state.dateAdded && (
                     <button className="ml-1" onClick={this.handleClick}>
                         <FontAwesomeIcon icon={faCalendarTimes} />
                     </button>
-                ) : (
-                    ""
                 )}
             </div>
         );

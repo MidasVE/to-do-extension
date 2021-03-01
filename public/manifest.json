@@ -7,7 +7,9 @@
         "newtab": "index.html"
     },
     "icons": {
-        "16": "logo192.png"
+        "16": "logo16.png",
+        "32": "logo32.png",
+        "192": "logo192.png"
     },
     "content_security_policy": "script-src 'self' 'sha256-1tld4PI1i3zMr1qgnUgNa4FNMkOqXf6kdvbrNm57YzM='; object-src 'self'",
     "permissions": []

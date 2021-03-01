@@ -13,6 +13,7 @@ export default class List extends Component {
             groupedNotes: [],
             dragId: 0,
             isGrouped: this.props.isGrouped,
+            categories: ls.get("categories") || [],
         };
     }
 
@@ -59,6 +60,7 @@ export default class List extends Component {
             {
                 notes: [],
                 groupedNotes: [],
+                categories: [],
             },
             () => {
                 ls.clear();
@@ -182,9 +184,11 @@ export default class List extends Component {
             {
                 notes: newNotes,
                 groupedNotes: this.groupNotes(newNotes, "category"),
+                categories: this.getCategories(newNotes),
             },
             () => {
                 ls.set("notes", this.state.notes);
+                ls.set("categories", this.state.categories);
             }
         );
     };
@@ -192,6 +196,12 @@ export default class List extends Component {
     groupNotes = (notes, key) => {
         let groupedNotes = this.groupBy(notes, key);
         return Object.entries(groupedNotes);
+    };
+
+    getCategories = (notes) => {
+        let groupedNotes = this.groupBy(notes, "category");
+        let categories = Object.keys(groupedNotes);
+        return categories;
     };
 
     getHighestOrder = (notes) => {

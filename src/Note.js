@@ -79,7 +79,11 @@ export default class Note extends Component {
             >
                 <div className="bg-red-200 bg-blue-200 bg-yellow-200 bg-green-200 bg-indigo-200 hidden"></div>
                 <div
-                    className={"note bg-" + this.props.backgroundColor + "-200"}
+                    className={
+                        "note bg-" +
+                        this.props.backgroundColor +
+                        "-200 cursor-move"
+                    }
                     draggable={this.state.draggable}
                     id={this.props.id}
                     onDragOver={(e) => e.preventDefault()}
@@ -91,7 +95,7 @@ export default class Note extends Component {
                         text={this.props.text}
                     />
                     {!this.props.isGrouped && this.props.category && (
-                        <span className="absolute -top-2 -right-2 bg-gray-500 text-white py-2 px-4 rounded-3xl shadow">
+                        <span className="absolute -top-4 -right-4 bg-gray-500 text-white py-2 px-4 rounded-3xl shadow">
                             {this.props.category}
                         </span>
                     )}

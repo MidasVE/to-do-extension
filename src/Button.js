@@ -31,7 +31,7 @@ export default class Button extends Component {
             <div className={this.props.className}>
                 <button
                     className={
-                        "m-4 px-4 py-2 bg-indigo-400 rounded-full shadow text-white transition-transform whitespace-nowrap" +
+                        "ml-4 px-4 py-2 bg-indigo-400 rounded-full shadow text-white transition-transform whitespace-nowrap" +
                         (this.state.btnClicked ? " pressed" : "")
                     }
                     onClick={this.handleClick}

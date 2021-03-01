@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Note from "./Note";
+import CategoryText from "./CategoryText";
 import ls from "local-storage";
 import { confirmAlert } from "react-confirm-alert";
 import "./ConfirmAlert.css";
@@ -86,6 +87,17 @@ export default class List extends Component {
                 this.changeDate(id);
                 break;
         }
+    };
+
+    handleCategoryChange = (prevCategory, category) => {
+        const newNotes = this.state.notes.map((note) => {
+            if (note.category === prevCategory) {
+                note.category = category;
+            }
+            return note;
+        });
+
+        this.updateNotes(newNotes);
     };
 
     removeNote = (id) => {
@@ -274,8 +286,13 @@ export default class List extends Component {
                           return (
                               <div key={i} className="flex w-full flex-wrap">
                                   {category !== "" && (
-                                      <h3 className="w-full font-bold text-lg">
-                                          {category}
+                                      <h3 className="w-full">
+                                          <CategoryText
+                                              text={category}
+                                              onChange={
+                                                  this.handleCategoryChange
+                                              }
+                                          ></CategoryText>
                                       </h3>
                                   )}
                                   {notes

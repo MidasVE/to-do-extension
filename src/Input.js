@@ -81,7 +81,7 @@ export default class Input extends Component {
                     value={this.state.category}
                     onChange={this.handleCategoryChange}
                     placeholder="+ Voeg categorie toe"
-                    className="mt-2 mb-auto"
+                    className="absolute -top-4 -right-4 text-white bg-gray-500 py-2 px-4 rounded-3xl shadow w-min"
                 />
                 <div className="flex justify-end items-center flex-wrap">
                     <div className="my-2 w-full flex justify-end">

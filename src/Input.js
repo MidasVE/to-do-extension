@@ -1,5 +1,6 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ls from "local-storage";
 import React, { Component } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import NoteDate from "./NoteDate";
@@ -13,6 +14,7 @@ export default class Input extends Component {
             date: "",
             error: "",
             category: "",
+            categories: ls.get("categories") || [],
         };
     }
 
@@ -31,12 +33,6 @@ export default class Input extends Component {
     handleDateRemoval = () => {
         this.setState({
             date: "",
-        });
-    };
-
-    handleCategoryChange = (e) => {
-        this.setState({
-            category: e.target.value,
         });
     };
 
@@ -64,6 +60,14 @@ export default class Input extends Component {
             string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
         ).trim();
     };
+
+    componentDidUpdate() {
+        if (this.props.updatedCategories) {
+            this.setState({
+                categories: ls.get("categories") || [],
+            });
+        }
+    }
 
     render() {
         return (

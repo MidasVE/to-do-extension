@@ -187,6 +187,7 @@ export default class List extends Component {
                 categories: this.getCategories(newNotes),
             },
             () => {
+                this.props.categoriesUpdated();
                 ls.set("notes", this.state.notes);
                 ls.set("categories", this.state.categories);
             }
@@ -200,7 +201,10 @@ export default class List extends Component {
 
     getCategories = (notes) => {
         let groupedNotes = this.groupBy(notes, "category");
-        let categories = Object.keys(groupedNotes);
+        let categories = Object.keys(groupedNotes).map((category, i) => ({
+            id: i,
+            name: category,
+        }));
         return categories;
     };
 

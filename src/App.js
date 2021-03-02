@@ -17,6 +17,7 @@ class App extends Component {
             notesCleared: false,
             buttonsVisible: ls.get("buttons"),
             isGrouped: ls.get("isGrouped"),
+            updateCategories: false,
         };
     }
 
@@ -60,12 +61,28 @@ class App extends Component {
         ls.set("buttons", show);
     };
 
+    updateCategories = () => {
+        this.setState(
+            {
+                categoriesUpdated: true,
+            },
+            () => {
+                this.setState({
+                    categoriesUpdated: false,
+                });
+            }
+        );
+    };
+
     render() {
         return (
             <div className="flex">
                 <div className="bg-gray-100 text-gray-600 text-base min-h-screen flex-grow p-12 flex flex-col justify-between relative">
                     <div>
-                        <Input onChange={this.changeInput} />
+                        <Input
+                            onChange={this.changeInput}
+                            updatedCategories={this.state.categoriesUpdated}
+                        />
                         <List
                             input={this.state.input}
                             date={this.state.date}
@@ -73,6 +90,7 @@ class App extends Component {
                             notesCleared={this.state.notesCleared}
                             toggleClearButton={this.toggleClearButton}
                             isGrouped={this.state.isGrouped}
+                            categoriesUpdated={this.updateCategories}
                         />
                     </div>
                     {this.state.buttonsVisible && (

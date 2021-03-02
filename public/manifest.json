@@ -6,6 +6,9 @@
     "chrome_url_overrides": {
         "newtab": "index.html"
     },
+    "browser_action": {
+        "default_icon": "logo32.png"
+    },
     "icons": {
         "16": "logo16.png",
         "32": "logo32.png",
